@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة الزفاف</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Amiri', serif;
+            overflow-x: hidden;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* ========== SPLASH SCREEN ========== */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+            perspective: 1000px;
+        }
+
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .splash-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+
+
+        .video-text {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #fff;
+            z-index: 10;
+            pointer-events: none;
+            animation: fadeInOut 3s infinite;
+        }
+
+        .video-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .video-text p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.8s ease-in 0.3s;
+        }
+
+        .main-content.show {
+            opacity: 1;
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(90deg, rgba(139, 58, 58, 0.98) 0%, rgba(139, 58, 58, 0.95) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* خطوط رأسية */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 19px,
+                rgba(255, 255, 255, 0.08) 19px,
+                rgba(255, 255, 255, 0.08) 20px
+            );
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            color: #fff;
+            font-style: italic;
+        }
+
+        .hero .date {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            opacity: 0.95;
+        }
+
+        .hero .venue {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .save-date-btn {
+            padding: 15px 45px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        .save-date-btn:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* ========== SECTIONS ========== */
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #d4af37;
+            letter-spacing: 2px;
+        }
+
+        section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+        }
+
+        /* ========== STORY SECTION ========== */
+        .story {
+            background: #0f0f0f;
+        }
+
+        .timeline {
+            display: grid;
+            gap: 30px;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .timeline-item {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 30px;
+            border-right: 4px solid #d4af37;
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .timeline-item .year {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .timeline-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .timeline-item p {
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* ========== DETAILS SECTION ========== */
+        .details {
+            background: #1a1a1a;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .detail-card {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 30px;
+            border-top: 3px solid #d4af37;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        .detail-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+
+        .detail-card p {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin: 8px 0;
+        }
+
+        /* ========== SCHEDULE SECTION ========== */
+        .schedule {
+            background: #0f0f0f;
+        }
+
+        .schedule-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: rgba(212, 175, 55, 0.08);
+            margin-bottom: 15px;
+            border-left: 4px solid #d4af37;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            background: rgba(212, 175, 55, 0.15);
+        }
+
+        .schedule-item .time {
+            font-weight: bold;
+            color: #d4af37;
+            font-size: 1.1rem;
+        }
+
+        .schedule-item .event {
+            color: #ccc;
+        }
+
+        /* ========== COUPLE SECTION ========== */
+        .couple {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .couple-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .couple-frame {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            border: 15px solid #d4af37;
+            border-radius: 8px;
+            box-shadow: 
+                0 0 40px rgba(212, 175, 55, 0.3),
+                inset 0 0 30px rgba(212, 175, 55, 0.1),
+                0 20px 60px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            animation: frameGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes frameGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 40px rgba(212, 175, 55, 0.3),
+                    inset 0 0 30px rgba(212, 175, 55, 0.1),
+                    0 20px 60px rgba(0, 0, 0, 0.8);
+            }
+            50% {
+                box-shadow: 
+                    0 0 60px rgba(212, 175, 55, 0.5),
+                    inset 0 0 40px rgba(212, 175, 55, 0.2),
+                    0 20px 60px rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        .couple-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .frame-decoration {
+            position: absolute;
+            background: #d4af37;
+        }
+
+        .frame-top,
+        .frame-bottom {
+            width: 40px;
+            height: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .frame-top {
+            top: -20px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .frame-bottom {
+            bottom: -20px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .frame-left,
+        .frame-right {
+            width: 2px;
+            height: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .frame-left {
+            left: -20px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .frame-right {
+            right: -20px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .couple {
+                padding: 60px 20px;
+            }
+
+            .couple-frame {
+                border-width: 12px;
+            }
+        }
+
+        /* ========== GALLERY SECTION ========== */
+        .gallery {
+            background: #1a1a1a;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 2px dashed #d4af37;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* ========== RSVP SECTION ========== */
+        .rsvp {
+            background: #0f0f0f;
+        }
+
+        .rsvp-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #fff;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: #d4af37;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: #e8c547;
+            transform: scale(1.02);
+        }
+
+        /* ========== LOCATION SECTION ========== */
+        .location {
+            background: #1a1a1a;
+        }
+
+        .location-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .info-card {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 30px;
+            border-left: 4px solid #d4af37;
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .info-card h4 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .info-card p {
+            color: #ccc;
+            margin: 8px 0;
+            line-height: 1.8;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: rgba(139, 58, 58, 0.8);
+            padding: 40px 20px;
+            text-align: center;
+            color: #ccc;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .date {
+                font-size: 1.1rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .save-date-btn {
+                padding: 12px 30px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 40px 15px;
+            }
+
+            section h2 {
+                font-size: 1.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* ========== INVITATION COVER ========== */
+        .invitation-cover {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: 1.5s;
+        }
+
+        .invitation-cover.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .invitation-cover::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('wee.jpeg') center center/cover no-repeat;
+            animation: slowZoom 20s linear forwards;
+            border-radius: 15px;
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            max-width: 600px;
+            width: 90%;
+            padding: 60px 40px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 
+                0 0 50px rgba(212, 175, 55, 0.3),
+                inset 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .cover-content h1,
+        .cover-content h2,
+        .cover-content p,
+        .enter-btn {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        .cover-content h1 {
+            font-size: 4rem;
+            font-family: 'Amiri', serif;
+            text-shadow: 0 0 20px rgba(0,0,0,.8);
+        }
+
+        .cover-content h2 {
+            font-size: 3rem;
+            margin: 10px 0;
+            text-shadow: 0 0 20px rgba(0,0,0,.8);
+        }
+
+        .cover-content p {
+            font-size: 1.4rem;
+            margin-top: 20px;
+            text-shadow: 0 0 10px rgba(0,0,0,.8);
+        }
+
+        .enter-btn {
+            margin-top: 40px;
+            padding: 15px 40px;
+            border: 2px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            font-family: 'Amiri', serif;
+            transition: all 0.3s ease;
+        }
+
+        .enter-btn:hover {
+            background: rgba(255,255,255,0.1);
+            transform: scale(1.05);
+        }
+
+        .animate {
+            animation: fadeUp 1.2s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slowZoom {
+            from {
+                background-size: 100%;
+            }
+            to {
+                background-size: 115%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cover-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .cover-content h2 {
+                font-size: 2rem;
+            }
+
+            .cover-content p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen with Video -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="video-container">
+            <video class="splash-video" id="splashVideo" muted>
+                <source src="we.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay">
+                <div class="video-text">
+                    <h1>محمد & ماسة</h1>
+                    <p>يسعدنا دعوتكم لحضور زفافنا</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invitation Cover -->
+    <div class="invitation-cover" id="invitationCover">
+        <div class="cover-content">
+            <h1 id="groom">محمد</h1>
+            <h2 id="andSymbol">&</h2>
+            <h1 id="bride">ماسة</h1>
+
+            <p id="weddingInfo">
+                الجمعة 12 يونيو 2026<br>
+                قاعة تونس
+            </p>
+
+            <button id="enterBtn" class="enter-btn">
+                اضغط للدخول
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="hero-content">
+            <h1>محمد & ماسه</h1>
+            <div class="date">Friday, June 12, 2026</div>
+            <div class="venue">قاعة تونس</div>
+            <button class="save-date-btn">SAVE THE DATE</button>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story" id="story">
+        <h2>قصتنا</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="year">2020</div>
+                <h4>اللقاء الأول</h4>
+                <p>التقينا للمرة الأولى وكانت البداية الجميلة لقصة حبنا</p>
+            </div>
+            <div class="timeline-item">
+                <div class="year">2023</div>
+                <h4>الخطوبة</h4>
+                <p>قررنا أن نقضي بقية عمرنا معاً</p>
+            </div>
+            <div class="timeline-item">
+                <div class="year">2026</div>
+                <h4>الزفاف</h4>     
+                <p>وصلنا لهذا اليوم الذي طالما انتظرناه</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Couple Section -->
+    <section class="couple" id="couple">
+        <div class="couple-container">
+            <div class="couple-frame">
+                <img src="wee.jpeg" alt="العروسان" class="couple-image">
+                <div class="frame-decoration frame-top"></div>
+                <div class="frame-decoration frame-right"></div>
+                <div class="frame-decoration frame-bottom"></div>
+                <div class="frame-decoration frame-left"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Section -->
+    <section class="details" id="details">
+        <h2>تفاصيل الحفل</h2>
+        <div class="details-grid">
+            <div class="detail-card">
+                <div class="icon">🕌</div>
+                <h4>حفل الزفاف</h4>
+                <p><strong>الوقت:</strong> 6:00 مساءً</p>
+                <p><strong>المكان:</strong> قاعة توليس</p>
+                <p><strong>العنوان:</strong> شارع الملك فيصل</p>
+            </div>
+            <div class="detail-card">
+                <div class="icon">🍽️</div>
+                <h4>الضيافة</h4>
+                <p><strong>الوقت:</strong> 8:00 مساءً</p>
+                <p><strong>القائمة:</strong> أطباق تقليدية وعصرية</p>
+                <p><strong>المشروبات:</strong> شاي، قهوة، عصائر</p>
+            </div>
+            <div class="detail-card">
+                <div class="icon">💒</div>
+                <h4>الفرح</h4>
+                <p><strong>الوقت:</strong> 9:00 مساءً</p>
+                <p><strong>الموسيقى:</strong> فرقة موسيقية حية</p>
+                <p><strong>الرقصة:</strong> برنامج راقص متنوع</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule" id="schedule">
+        <h2>برنامج اليوم</h2>
+        <div class="schedule-list">
+            <div class="schedule-item">
+                <span class="event">استقبال الضيوف</span>
+                <span class="time">4:00 PM</span>
+            </div>
+            <div class="schedule-item">
+                <span class="event">حفل الزفاف الديني</span>
+                <span class="time">6:00 PM</span>
+            </div>
+            <div class="schedule-item">
+                <span class="event">جلسة تصوير العائلة</span>
+                <span class="time">7:00 PM</span>
+            </div>
+            <div class="schedule-item">
+                <span class="event">العشاء والضيافة</span>
+                <span class="time">8:00 PM</span>
+            </div>
+            <div class="schedule-item">
+                <span class="event">الفرح والرقص</span>
+                <span class="time">9:00 PM</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <h2>معرض الصور</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">📷</div>
+            <div class="gallery-item">📷</div>
+            <div class="gallery-item">📷</div>
+            <div class="gallery-item">📷</div>
+            <div class="gallery-item">📷</div>
+            <div class="gallery-item">📷</div>
+        </div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section class="rsvp" id="rsvp">
+        <h2>تأكيد الحضور</h2>
+        <form class="rsvp-form" id="rsvpForm">
+            <div class="form-group">
+                <label for="name">الاسم الكامل</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">رقم الهاتف</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="email">البريد الإلكتروني</label>
+                <input type="email" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="guests">عدد الضيوف</label>
+                <select id="guests" name="guests" required>
+                    <option value="">-- اختر --</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit">تأكيد الحضور</button>
+        </form>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <h2>الموقع والتوجيهات</h2>
+        <div class="location-info">
+            <div class="info-card">
+                <h4>قاعة توليس</h4>
+                <p>شارع الملك فيصل، حي النخيل</p>
+                <p>الهاتف: +966-12-345-6789</p>
+            </div>
+            <div class="info-card">
+                <h4>فندق الرويال</h4>
+                <p>مسافة 5 دقائق من القاعة</p>
+                <p>سعر خاص: 250 ريال</p>
+            </div>
+            <div class="info-card">
+                <h4>فندق الفيصل</h4>
+                <p>مسافة 10 دقائق من القاعة</p>
+                <p>سعر خاص: 200 ريال</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>شكراً لكم على حضوركم معنا في هذا اليوم الجميل</p>
+        <p style="font-size: 0.9rem; opacity: 0.7;">© 2026 Wedding Invitation</p>
+    </div>
+
+    <script>
+        // Video Splash Screen Logic
+        const splashScreen = document.getElementById('splashScreen');
+        const splashVideo = document.getElementById('splashVideo');
+        const mainContent = document.getElementById('mainContent');
+        const invitationCover = document.getElementById('invitationCover');
+
+        // تشغيل الفيديو تلقائياً عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            splashVideo.play();
+        });
+
+        // عند انتهاء الفيديو
+        splashVideo.addEventListener('ended', function() {
+            splashScreen.style.opacity = "0";
+
+            setTimeout(() => {
+                splashScreen.style.display = "none";
+                invitationCover.classList.add("show");
+
+                setTimeout(() => {
+                    document.getElementById('groom').classList.add('animate');
+                }, 500);
+
+                setTimeout(() => {
+                    document.getElementById('andSymbol').classList.add('animate');
+                }, 1800);
+
+                setTimeout(() => {
+                    document.getElementById('bride').classList.add('animate');
+                }, 3000);
+
+                setTimeout(() => {
+                    document.getElementById('weddingInfo').classList.add('animate');
+                }, 4300);
+
+                setTimeout(() => {
+                    document.getElementById('enterBtn').classList.add('animate');
+                }, 5500);
+
+            }, 1000);
+        });
+
+        document.getElementById('enterBtn').addEventListener('click', () => {
+            invitationCover.style.opacity = "0";
+
+            setTimeout(() => {
+                invitationCover.style.display = "none";
+                mainContent.classList.add('show');
+            }, 1000);
+        });
+
+        // RSVP Form
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            alert(`شكراً لك ${name}، تم تسجيل حضورك بنجاح!`);
+            this.reset();
+        });
+
+        // Save the Date Button
+        document.querySelector('.save-date-btn').addEventListener('click', function() {
+            alert('تم حفظ التاريخ في تقويمك');
+        });
+    </script>
+</body>
+</html>
